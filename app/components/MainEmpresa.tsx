@@ -118,13 +118,13 @@ export default function MainEmpresa({
     const userRole = user?.role || "";
     const userEmail = user?.email || "";
     const userInitial = userName.charAt(0).toUpperCase();
-    const logoFromServer =`http://192.168.1.192:8000/storage/${companyLogo || user?.empresa?.logo || null}`;
+    const logoFromServer =`https://api.faturaja.sdoca.it.ao/storage/${companyLogo || user?.empresa?.logo || null}`;
 
     // FUNÇÃO PARA VALIDAR E FORMATAR URL DA IMAGEM
     const getValidImageUrl = (logo: string | null | undefined): string | null => {
         if (!logo || logoError) return null;
 
-        if (logo.startsWith("http://") || logo.startsWith("https://")) {
+        if ( logo.startsWith("https://")) {
             return logo;
         }
 
