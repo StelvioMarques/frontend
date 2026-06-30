@@ -66,7 +66,7 @@ async function abrirUrlAutenticada(url: string, tipo: "pdf" | "html" = "pdf") {
   if (win) {
     win.addEventListener("load", () => URL.revokeObjectURL(blobUrl), { once: true });
   } else {
-    setTimeout(() => URL.revokeObjectURL(blobUrl), 160000);
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
   }
 }
 
@@ -122,7 +122,9 @@ export default function FaturasPage() {
 
   // BaseURL dinâmica — igual ao teu axios.ts
   const baseUrl =
-    "https://api.faturaja.sdoca.it.ao";
+    typeof window !== "undefined"
+      ? `${window.location.protocol}//${window.location.hostname}:8000`
+      : "http://localhost:8000";
 
   /* ── Fechar dropdown ao clicar fora ── */
   useEffect(() => {

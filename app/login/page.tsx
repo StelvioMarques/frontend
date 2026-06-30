@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
@@ -7,7 +7,16 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/authprovider";
 import { useThemeColors } from "@/context/ThemeContext";
 import { AxiosError } from "axios";
-import { Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle, Loader2, UserPlus } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  ArrowRight,
+  AlertCircle,
+  Loader2,
+  UserPlus,
+} from "lucide-react";
 import styles from "./login.module.css";
 
 /* ---------------- TYPES ---------------- */
@@ -71,12 +80,14 @@ const InputField: React.FC<InputFieldProps> = ({
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         required
-        className={`w-full pl-10 pr-${showPasswordToggle ? '12' : '4'} py-3  border-2 outline-none transition-all duration-300`}
+        className={`w-full pl-10 pr-${showPasswordToggle ? "12" : "4"} py-3  border-2 outline-none transition-all duration-300`}
         style={{
           backgroundColor: isFocused ? colors.card : `${colors.card}80`,
           borderColor: isFocused ? colors.secondary : colors.border,
           color: colors.text,
-          boxShadow: isFocused ? `0 10px 15px -3px ${colors.secondary}20` : 'none',
+          boxShadow: isFocused
+            ? `0 10px 15px -3px ${colors.secondary}20`
+            : "none",
         }}
       />
 
@@ -123,7 +134,9 @@ export default function LoginPage(): React.ReactElement {
     setTimeout(() => router.push(destination), 500);
   }, [user, router]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ): Promise<void> => {
     e.preventDefault();
     setError("");
     setIsSubmitting(true);
@@ -132,7 +145,8 @@ export default function LoginPage(): React.ReactElement {
       await login(email, password);
     } catch (err: unknown) {
       let errorMessage = "Ocorreu um erro desconhecido";
-      if (err instanceof AxiosError) errorMessage = err.response?.data?.message ?? err.message;
+      if (err instanceof AxiosError)
+        errorMessage = err.response?.data?.message ?? err.message;
       else if (err instanceof Error) errorMessage = err.message;
       setError(errorMessage);
     } finally {
@@ -152,7 +166,7 @@ export default function LoginPage(): React.ReactElement {
         className="absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage: `linear-gradient(${colors.primary} 1px, transparent 1px), linear-gradient(90deg, ${colors.primary} 1px, transparent 1px)`,
-          backgroundSize: '50px 50px',
+          backgroundSize: "50px 50px",
         }}
       />
 
@@ -178,14 +192,26 @@ export default function LoginPage(): React.ReactElement {
 
           {/* Título */}
           <div className="text-center mb-6">
-            <h2 className="text-3xl font-bold mb-2" style={{ color: colors.secondary }}>Bem-vindo</h2>
-            <p className="text-sm" style={{ color: colors.textSecondary }}>Faça login para acessar o sistema</p>
+            <h2
+              className="text-3xl font-bold mb-2"
+              style={{ color: colors.secondary }}
+            >
+              Bem-vindo
+            </h2>
+            <p className="text-sm" style={{ color: colors.textSecondary }}>
+              Faça login para acessar o sistema
+            </p>
           </div>
 
           {/* Erro */}
           {error && (
-            <div className="mb-4 border-l-4 p-4 rounded-r-xl flex items-center gap-3 shadow-sm"
-              style={{ backgroundColor: `${colors.danger}20`, borderColor: colors.danger, color: colors.danger }}
+            <div
+              className="mb-4 border-l-4 p-4 rounded-r-xl flex items-center gap-3 shadow-sm"
+              style={{
+                backgroundColor: `${colors.danger}20`,
+                borderColor: colors.danger,
+                color: colors.danger,
+              }}
             >
               <AlertCircle size={20} />
               <span className="text-sm font-medium">{error}</span>
@@ -193,79 +219,114 @@ export default function LoginPage(): React.ReactElement {
           )}
 
           {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-  <InputField
-    type="email"
-    placeholder="Digite seu email"
-    value={email}
-    onChange={(e) => setEmail(e.target.value)}
-    icon={Mail}
-    colors={colors}
-  />
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <InputField
+              type="email"
+              placeholder="Digite seu email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              icon={Mail}
+              colors={colors}
+            />
 
-  <InputField
-    type={showPassword ? "text" : "password"}
-    placeholder="Digite sua senha"
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-    icon={Lock}
-    showPasswordToggle
-    onTogglePassword={() => setShowPassword(!showPassword)}
-    colors={colors}
-  />
+            <InputField
+              type={showPassword ? "text" : "password"}
+              placeholder="Digite sua senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              icon={Lock}
+              showPasswordToggle
+              onTogglePassword={() => setShowPassword(!showPassword)}
+              colors={colors}
+            />
 
-  {/* Forgot password link - aligned right 
-  <div className="flex justify-end">
-    <Link
-      href="/forgot-password"
-      className="text-xs font-medium transition-colors"
-      style={{ color: colors.secondary }}
-    >
-      Esqueceu a senha?
-    </Link>
-  </div>*/}
+            {/* Forgot password link - aligned right */}
+            <div className="flex justify-end -mt-2">
+              <Link
+                href="/forgot-password"
+                className="text-xs font-medium transition-colors hover:underline"
+                style={{ color: colors.secondary }}
+              >
+                Esqueceu a senha?
+              </Link>
+            </div>
 
-  {/* Submit button */}
-  <button
-    type="submit"
-    disabled={isLoading}
-    className="w-full py-3.5 mt-2 font-semibold text-white flex items-center justify-center gap-2 transition-all duration-300"
-    style={{ backgroundColor: isLoading ? `${colors.primary}B3` : colors.primary }}
-  >
-    {isLoading ? (
-      <>
-        <Loader2 size={20} className="animate-spin" />
-        Entrando...
-      </>
-    ) : (
-      <>
-        Entrar
-        <ArrowRight size={20} />
-      </>
-    )}
-  </button>
-</form>
-         
+            {/* Submit button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3.5 mt-2 font-semibold text-white flex items-center justify-center gap-2 transition-all duration-300"
+              style={{
+                backgroundColor: isLoading
+                  ? `${colors.primary}B3`
+                  : colors.primary,
+              }}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 size={20} className="animate-spin" />
+                  Entrando...
+                </>
+              ) : (
+                <>
+                  Entrar
+                  <ArrowRight size={20} />
+                </>
+              )}
+            </button>
+          </form>
+
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t" style={{ borderColor: colors.border }}></div>
+              <div
+                className="w-full border-t"
+                style={{ borderColor: colors.border }}
+              ></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="px-4" style={{ backgroundColor: colors.card, color: colors.textSecondary }}>ou</span>
+              <span
+                className="px-4"
+                style={{
+                  backgroundColor: colors.card,
+                  color: colors.textSecondary,
+                }}
+              >
+                ou
+              </span>
             </div>
+          </div>
+
+          {/* Dentro do bloco onde está o link "Não tem conta? Cadastre-se" */}
+
+          <div className="text-center mt-4">
+            <Link
+              href="/login-email-only"
+              className="inline-flex items-center gap-2 text-sm font-medium transition-colors hover:underline"
+              style={{ color: colors.secondary }}
+            >
+              <Mail size={16} />
+              Entrar apenas com email
+            </Link>
           </div>
 
           {/* Link Cadastro */}
           <div className="text-center">
-            <Link href="/register" className="group inline-flex items-center gap-2 transition-colors font-medium" style={{ color: colors.secondary }}>
+            <Link
+              href="/register"
+              className="group inline-flex items-center gap-2 transition-colors font-medium"
+              style={{ color: colors.secondary }}
+            >
               <UserPlus size={18} />
               Não tem conta? Cadastre-se
-              <ArrowRight size={16} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+              <ArrowRight
+                size={16}
+                className="opacity-0 group-hover:opacity-100 transition-opacity"
+              />
             </Link>
           </div>
         </div>
         {/* Footer */}
       </div>
-    </div> 
+    </div>
   );
 }
