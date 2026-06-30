@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 // ============ CONFIGURAÇÃO BASE ============
 
 const getBaseURL = (): string => {
-    return `https://api.faturaja.sdoca.it.ao`;
+    return `https://api.faturaja.sdoca.it.ao/api`;
 };
 
 const baseConfig = {
