@@ -58,9 +58,11 @@ async function abrirUrlAutenticada(url: string, tipo: "pdf" | "html" = "pdf") {
   const win = window.open(blobUrl, "_blank");
 
   if (win) {
-    win.addEventListener("load", () => URL.revokeObjectURL(blobUrl), { once: true });
+    win.addEventListener("load", () => URL.revokeObjectURL(blobUrl), {
+      once: true,
+    });
   } else {
-    setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+    setTimeout(() => URL.revokeObjectURL(blobUrl), 160000);
   }
 }
 /* ─────────────────────────────────────────────────────────────────────────── */
@@ -77,15 +79,15 @@ export default function OutrosDocumentosPage() {
   const [dropdownAberto, setDropdownAberto] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const baseUrl =
-    typeof window !== "undefined"
-      ? `${window.location.protocol}//${window.location.hostname}:8000`
-      : "http://localhost:8000";
+  const baseUrl = "https://api.faturaja.sdoca.it.ao";
 
   /* ── Fechar dropdown ao clicar fora ── */
   useEffect(() => {
     function handleClickFora(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setDropdownAberto(false);
       }
     }
@@ -108,7 +110,7 @@ export default function OutrosDocumentosPage() {
       if (!resultado?.data) throw new Error("Erro ao carregar");
       // Filtra apenas os tipos desta página
       const filtrados = resultado.data.filter((d) =>
-        ["FP", "FA", "NC", "ND", "FRt"].includes(d.tipo_documento)
+        ["FP", "FA", "NC", "ND", "FRt"].includes(d.tipo_documento),
       );
       setDocumentos(filtrados);
     } catch (err: unknown) {
@@ -129,13 +131,15 @@ export default function OutrosDocumentosPage() {
       try {
         await abrirUrlAutenticada(
           `${baseUrl}/api/documentos-fiscais/${documento.id}/print-a4`,
-          "html"
+          "html",
         );
       } catch (err: unknown) {
-        alert(err instanceof Error ? err.message : "Erro ao abrir impressão A4");
+        alert(
+          err instanceof Error ? err.message : "Erro ao abrir impressão A4",
+        );
       }
     },
-    [baseUrl]
+    [baseUrl],
   );
 
   /* ── PDF Viewer autenticado (talão térmico para PDF) ── */
@@ -145,13 +149,13 @@ export default function OutrosDocumentosPage() {
       try {
         await abrirUrlAutenticada(
           `${baseUrl}/api/documentos-fiscais/${documento.id}/pdf-viewer`,
-          "html"
+          "html",
         );
       } catch (err: unknown) {
         alert(err instanceof Error ? err.message : "Erro ao abrir PDF");
       }
     },
-    [baseUrl]
+    [baseUrl],
   );
 
   /* ── Download PDF ── */
@@ -191,7 +195,10 @@ export default function OutrosDocumentosPage() {
         className="flex flex-wrap items-center justify-between px-3 py-3"
         style={{ borderBottom: `0.5px solid ${colors.border}` }}
       >
-        <span className="text-sm font-semibold" style={{ color: colors.secondary }}>
+        <span
+          className="text-sm font-semibold"
+          style={{ color: colors.secondary }}
+        >
           Outros Documentos Fiscais
         </span>
 
@@ -215,7 +222,10 @@ export default function OutrosDocumentosPage() {
           {dropdownAberto && (
             <div
               className="absolute right-0 mt-2 w-56 rounded shadow-lg z-50"
-              style={{ backgroundColor: colors.background, border: `1px solid ${colors.border}` }}
+              style={{
+                backgroundColor: colors.background,
+                border: `1px solid ${colors.border}`,
+              }}
             >
               {/* Nova Venda */}
               <button
@@ -232,7 +242,10 @@ export default function OutrosDocumentosPage() {
                 <FileText size={16} style={{ color: colors.secondary }} />
                 <div className="text-left">
                   <div className="font-medium">Gerar factura-recibo</div>
-                  <div style={{ color: colors.text, opacity: 0.7 }} className="text-xs">
+                  <div
+                    style={{ color: colors.text, opacity: 0.7 }}
+                    className="text-xs"
+                  >
                     Registar uma nova venda
                   </div>
                 </div>
@@ -253,7 +266,10 @@ export default function OutrosDocumentosPage() {
                 <FileText size={16} style={{ color: colors.primary }} />
                 <div className="text-left">
                   <div className="font-medium">Gerar factura</div>
-                  <div style={{ color: colors.text, opacity: 0.7 }} className="text-xs">
+                  <div
+                    style={{ color: colors.text, opacity: 0.7 }}
+                    className="text-xs"
+                  >
                     Emitir uma factura normal
                   </div>
                 </div>
@@ -273,7 +289,10 @@ export default function OutrosDocumentosPage() {
                 <FileText size={16} style={{ color: colors.secondary }} />
                 <div className="text-left">
                   <div className="font-medium">Gerar proforma</div>
-                  <div style={{ color: colors.text, opacity: 0.7 }} className="text-xs">
+                  <div
+                    style={{ color: colors.text, opacity: 0.7 }}
+                    className="text-xs"
+                  >
                     Criar uma factura proforma
                   </div>
                 </div>
