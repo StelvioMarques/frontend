@@ -6,8 +6,7 @@ import Cookies from "js-cookie";
 // ============ CONFIGURAÇÃO BASE ============
 
 const getBaseURL = (): string => {
-    if (typeof window === "undefined") return "https://192.168.1.198:8000";
-    return `api/${window.location.protocol}//${window.location.hostname}`;
+    return `https://api.faturaja.sdoca.it.ao`;
 };
 
 const baseConfig = {
