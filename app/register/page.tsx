@@ -262,7 +262,7 @@ export default function RegisterCompanyPage() {
         const uploadFormData = new FormData();
         uploadFormData.append("logo", file);
         await refreshCsrf();
-        const response = await api.post("/upload-temp-logo", uploadFormData, {
+        const response = await api.post("/api/upload-temp-logo", uploadFormData, {
             headers: { "Content-Type": "multipart/form-data" },
         });
         if (response.data.success) return response.data.logo_url;
